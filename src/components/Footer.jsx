@@ -1,0 +1,2 @@
+import React from 'react'
+export function Footer({ onNavigate, onDisclaimer }) { return <footer><span>© {new Date().getFullYear()} Storygunung</span><div><button onClick={onDisclaimer}>Disclaimer</button><button onClick={() => onNavigate('referensi')}>Referensi</button><button onClick={() => onNavigate('tentang')}>Tentang</button></div></footer> }
