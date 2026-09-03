@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "scenarios": [
+    {
+      "id": "worst_case",
+      "title": "Kondisi Terburuk",
+      "description": "...",
+      "hazards": [
+        "eruption",
+        "pyroclastic_flow",
+        "hot_rocks",
+        "lahar",
+        "tsunami"
+      ],
+      "route_mode": "primary",
+      "show_alternative_route": false
+    },
+    {
+      "id": "eruption_lahar",
+      "title": "Letusan + Lahar",
+      "description": "...",
+      "hazards": [
+        "eruption",
+        "pyroclastic_flow",
+        "hot_rocks",
+        "lahar"
+      ],
+      "route_mode": "primary",
+      "show_alternative_route": false
+    },
+    {
+      "id": "eruption",
+      "title": "Letusan",
+      "description": "...",
+      "hazards": [
+        "eruption",
+        "pyroclastic_flow",
+        "hot_rocks"
+      ],
+      "route_mode": "primary",
+      "show_alternative_route": true,
+      "alternative_route_label": "Lihat Rute Alternatif"
+    }
+  ]
+}

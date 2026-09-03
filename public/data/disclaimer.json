@@ -1,0 +1,42 @@
+{
+  "title": "Sumber Pengetahuan dan Batas Informasi",
+  "intro": "...",
+  "sources": [
+    {
+      "id": "magma_pvmbg",
+      "name": "MAGMA / PVMBG",
+      "type": "official",
+      "role": "...",
+      "limitations": "..."
+    },
+    {
+      "id": "brin",
+      "name": "Riset BRIN",
+      "type": "scientific_research",
+      "role": "...",
+      "limitations": "..."
+    },
+    {
+      "id": "government",
+      "name": "Rekomendasi Pemerintah",
+      "type": "official_guidance",
+      "role": "...",
+      "limitations": "..."
+    },
+    {
+      "id": "field_experience",
+      "name": "Pengalaman / Pengamatan Lapangan",
+      "type": "field_observation",
+      "role": "...",
+      "limitations": "..."
+    },
+    {
+      "id": "personal_mitigation",
+      "name": "Rancangan Mitigasi Pribadi",
+      "type": "personal_design",
+      "role": "...",
+      "limitations": "..."
+    }
+  ],
+  "general_limits": []
+}skenario.json
