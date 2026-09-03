@@ -1,0 +1,165 @@
+{
+  "references": [
+    {
+      "id": "ref-01",
+      "authors": [
+        "Andreastuti, S. D.",
+        "Paripurno, E. T.",
+        "Subandriyo, S.",
+        "Syahbana, D. K.",
+        "Prayoga, A. S."
+      ],
+      "year": 2023,
+      "title": "Volcano disaster risk management during crisis: implementation of risk communication in Indonesia",
+      "journal": "Journal of Applied Volcanology",
+      "volume": 12,
+      "pages": 3,
+      "doi": "https://doi.org/10.1186/s13617-023-00129-2",
+      "topic": "risk-communication",
+      "case_study": "Indonesia",
+      "relevance": "landasan komunikasi risiko gunung api di Indonesia"
+    },
+    {
+      "id": "ref-02",
+      "authors": [
+        "Krippner, J. B.",
+        "Poppe, S.",
+        "Farias, C.",
+        "Venzke, E.",
+        "Poland, M. P."
+      ],
+      "year": 2026,
+      "title": "Getting the story straight: common misconceptions around volcanoes and eruptions with case studies of recent events",
+      "journal": "Journal of Applied Volcanology",
+      "volume": 15,
+      "pages": 12,
+      "doi": "https://doi.org/10.1186/s13617-026-00168-5",
+      "topic": "misconception",
+      "case_study": "Mount Agung and others",
+      "relevance": "miskonsepsi publik terhadap gunung api"
+    },
+    {
+      "id": "ref-03",
+      "authors": [
+        "Utomo, D. S.",
+        "Sumarmi",
+        "Bachri, S.",
+        "Utaya, S."
+      ],
+      "year": 2026,
+      "title": "Traditional ecological knowledge in volcanic risk governance: Rethinking human-volcano relationships",
+      "journal": "Social Sciences & Humanities Open",
+      "volume": 13,
+      "pages": 102397,
+      "doi": "https://doi.org/10.1016/j.ssaho.2025.102397",
+      "topic": "local-knowledge",
+      "case_study": "Mount Kelud",
+      "relevance": "integrasi pengetahuan lokal dan monitoring ilmiah"
+    },
+    {
+      "id": "ref-04",
+      "authors": [
+        "Utomo, D. S.",
+        "et al."
+      ],
+      "year": 2025,
+      "title": "Evaluating hazard, vulnerability, and capacity through local knowledge for volcano risk reduction",
+      "journal": "Journal of Applied Volcanology",
+      "topic": "local-spatial-knowledge",
+      "case_study": "Mount Merapi",
+      "relevance": "pengetahuan spasial lokal untuk mitigasi"
+    },
+    {
+      "id": "ref-05",
+      "authors": [
+        "Fearnley, C. J.",
+        "Beaven, S."
+      ],
+      "year": 2018,
+      "title": "Volcano alert level systems: Managing the challenges of the 21st century",
+      "journal": "Natural Hazards and Earth System Sciences",
+      "volume": 18,
+      "number": 5,
+      "pages": "1395-1410",
+      "doi": "https://doi.org/10.5194/nhess-18-1395-2018",
+      "topic": "warning-system",
+      "relevance": "kelemahan sistem status dan alert level"
+    },
+    {
+      "id": "ref-06",
+      "authors": [
+        "Potter, S. H.",
+        "Jolly, G. E.",
+        "Neall, V. E.",
+        "Johnston, D. M.",
+        "Scott, B. J."
+      ],
+      "year": 2014,
+      "title": "Communicating the status of volcanic activity: Revising New Zealand's volcanic alert level system",
+      "journal": "Journal of Applied Volcanology",
+      "volume": 3,
+      "pages": 13,
+      "doi": "https://doi.org/10.1186/s13617-014-0013-7",
+      "topic": "warning-language",
+      "case_study": "New Zealand",
+      "relevance": "bahasa peringatan dan pemahaman publik"
+    },
+    {
+      "id": "ref-07",
+      "authors": [
+        "Sutawidjaja, Igan S."
+      ],
+      "year": 2011,
+      "title": "Potensi Bencana Gunung Api Iya, Kabupaten Ende, Nusa Tenggara Timur",
+      "journal": "Jurnal Lingkungan dan Bencana Geologi",
+      "volume": 2,
+      "number": 2,
+      "pages": null,
+      "topic": "volcano-hazard",
+      "case_study": "Mount Iya",
+      "relevance": "referensi utama tentang Gunung Iya"
+    },
+    {
+      "id": "ref-08",
+      "authors": [
+        "Chouet, B. A.",
+        "Matoza, R. S."
+      ],
+      "year": 2013,
+      "title": "A multi-decadal view of seismic methods for detecting precursors of magma movement and eruption",
+      "journal": "Journal of Volcanology and Geothermal Research",
+      "volume": 252,
+      "pages": "108-175",
+      "doi": "https://doi.org/10.1016/j.jvolgeores.2012.11.013",
+      "topic": "volcanic-seismology",
+      "relevance": "dasar ilmiah interpretasi kegempaan vulkanik"
+    },
+    {
+      "id": "ref-09",
+      "authors": [
+        "McNutt, S. R."
+      ],
+      "year": 2005,
+      "title": "Volcanic seismology",
+      "journal": "Annual Review of Earth and Planetary Sciences",
+      "volume": 33,
+      "pages": "461-491",
+      "doi": "https://doi.org/10.1146/annurev.earth.33.092203.122459",
+      "topic": "volcanic-seismology",
+      "relevance": "tinjauan menyeluruh seismologi vulkanik"
+    },
+    {
+      "id": "ref-10",
+      "authors": [
+        "Crowley, K.",
+        "et al."
+      ],
+      "year": 2021,
+      "title": "Evacuation decision-making during the 2017-2019 Agung crisis: A case study from Bali, Indonesia",
+      "journal": "Journal of Applied Volcanology",
+      "topic": "evacuation",
+      "case_study": "Mount Agung",
+      "relevance": "pengambilan keputusan evakuasi di Indonesia"
+    }
+  ]
+}
