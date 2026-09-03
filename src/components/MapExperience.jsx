@@ -1,191 +1,291 @@
-import React, { useEffect, useRef } from 'react'
-import mapboxgl from 'mapbox-gl'
-import 'mapbox-gl/dist/mapbox-gl.css'
-import { muatLapisanKrb } from '../peta/lapisan/lapisanKrb'
-import { mulaiRadarKrb, hentikanRadarKrb } from '../peta/animasi/radarKrb'
+import React, {
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 
-function sembunyikanLabelNonKota(map) {
-  const layers = map.getStyle()?.layers || []
+import {
+  buatPeta,
+  hancurkanPeta,
+} from '../peta/peta'
 
-  layers.forEach((layer) => {
-    if (layer.type !== 'symbol') return
+import {
+  muatLapisanKrb,
+} from '../peta/lapisan/lapisanKrb'
 
-    const id = String(layer.id || '').toLowerCase()
-    const sourceLayer = String(layer['source-layer'] || '').toLowerCase()
-    const filter = JSON.stringify(layer.filter || '').toLowerCase()
+import {
+  muatLapisanLaharHujan,
+  buatLabelLaharHujan,
+  hapusLabelLaharHujan,
+} from '../peta/penanda/laharHujan'
 
-    const teks = `${id} ${sourceLayer} ${filter}`
+import {
+  mulaiRadarKrb,
+  hentikanRadarKrb,
+} from '../peta/animasi/radarKrb'
 
-    // Label yang jelas bukan kota
-    const bukanKota =
-      teks.includes('village') ||
-      teks.includes('hamlet') ||
-      teks.includes('town') ||
-      teks.includes('locality') ||
-      teks.includes('suburb') ||
-      teks.includes('neighbourhood') ||
-      teks.includes('neighborhood') ||
-      teks.includes('district') ||
-      teks.includes('subdistrict') ||
-      teks.includes('settlement-subdivision') ||
-      teks.includes('settlement-minor')
+import {
+  mulaiLaharHujan,
+  hentikanLaharHujan,
+} from '../peta/animasi/animasiLaharHujan'
 
-    if (bukanKota) {
-      try {
-        map.setLayoutProperty(
-          layer.id,
-          'visibility',
-          'none'
-        )
-      } catch (error) {
-        console.warn(
-          `Tidak dapat menyembunyikan layer label: ${layer.id}`,
-          error
-        )
-      }
-    }
-  })
+import {
+  buatStatusGunung,
+  hapusStatusGunung,
+} from '../peta/penanda/statusGunung'
+
+import {
+  pasangAtributKrb,
+} from '../peta/penanda/atributKrb'
+
+import {
+  MitigasiExperience,
+} from '../peta/mitigasi/MitigasiExperience'
+
+import {
+  KontrolPeta,
+} from '../peta/kontrol/KontrolPeta'
+
+const HOME_CAMERA = {
+  center: [121.63439, -8.91708],
+  zoom: 12.7,
+  pitch: 61,
+  bearing: -26,
 }
 
-export function MapExperience() {
+const MITIGASI_CAMERA = {
+  center: [121.64212, -8.84448],
+  zoom: 13.14,
+  pitch: 0,
+  bearing: 58.40,
+}
+
+const DURASI_TRANSISI = 1800
+
+export function MapExperience({ mode }) {
   const container = useRef(null)
-  const mapRef = useRef(null)
+
+  const [mapInstance, setMapInstance] =
+    useState(null)
+
+  const [modeLokal, setModeLokal] =
+    useState(
+      typeof mode === 'string'
+        ? mode
+        : 'home'
+    )
 
   useEffect(() => {
-    if (!container.current || mapRef.current) return
+    if (typeof mode === 'string') {
+      setModeLokal(mode)
+    }
+  }, [mode])
 
-    const token = import.meta.env.VITE_MAPBOX_TOKEN
+  const modeSekarang = modeLokal
 
-    console.log(
-      'Mapbox token:',
-      token ? 'TERBACA' : 'TIDAK TERBACA'
-    )
-
-    if (!token) {
-      console.error('VITE_MAPBOX_TOKEN tidak ditemukan.')
-      return
+  /*
+   * Event global tetap dipertahankan.
+   */
+  useEffect(() => {
+    const bukaMitigasi = () => {
+      setModeLokal('mitigasi')
     }
 
-    mapboxgl.accessToken = token
+    const tutupMitigasi = () => {
+      setModeLokal('home')
+    }
 
-    const map = new mapboxgl.Map({
-      container: container.current,
-      style: 'mapbox://styles/mapbox/satellite-streets-v12',
-      center: [121.63, -8.88],
-      zoom: 12.7,
-      pitch: 61,
-      bearing: -26,
-      antialias: true,
-    })
-
-    mapRef.current = map
-
-    console.log('Mapbox instance dibuat.')
-
-    map.on('error', (event) => {
-      console.error(
-        'MAPBOX ERROR:',
-        event?.error || event
-      )
-    })
-
-    map.addControl(
-      new mapboxgl.NavigationControl({
-        visualizePitch: true,
-      }),
-      'bottom-right'
+    window.addEventListener(
+      'buka-mitigasi',
+      bukaMitigasi
     )
 
-    map.on('load', async () => {
-      console.log('Mapbox style berhasil dimuat.')
-
-      // =========================
-      // TERRAIN 3D
-      // =========================
-
-      try {
-        if (!map.getSource('mapbox-dem')) {
-          map.addSource('mapbox-dem', {
-            type: 'raster-dem',
-            url: 'mapbox://mapbox.mapbox-terrain-dem-v1',
-            tileSize: 512,
-            maxzoom: 14,
-          })
-        }
-
-        map.setTerrain({
-          source: 'mapbox-dem',
-          exaggeration: 1.25,
-        })
-
-        map.setFog({
-          range: [0.6, 10],
-          color: '#bdd7e4',
-          'horizon-blend': 0.13,
-        })
-
-        console.log('Terrain 3D aktif.')
-      } catch (error) {
-        console.error(
-          'Gagal mengaktifkan terrain:',
-          error
-        )
-      }
-
-      // =========================
-      // LABEL PETA
-      // Kota tetap.
-      // Desa/kampung/kecamatan disembunyikan.
-      // =========================
-
-      sembunyikanLabelNonKota(map)
-
-      // =========================
-      // KRB
-      // =========================
-
-      try {
-        console.log('Memuat lapisan KRB...')
-
-        await muatLapisanKrb(map)
-
-        console.log('Lapisan KRB berhasil dimuat.')
-
-        mulaiRadarKrb(map)
-
-        console.log('Radar KRB aktif.')
-      } catch (error) {
-        console.error(
-          'Gagal memuat lapisan KRB:',
-          error
-        )
-      }
-
-      setTimeout(() => {
-        map.resize()
-      }, 100)
-
-      // =========================
-      // GERAKAN KAMERA
-      // =========================
-
-      map.easeTo({
-        bearing: -12,
-        duration: 13000,
-        essential: false,
-      })
-    })
+    window.addEventListener(
+      'tutup-mitigasi',
+      tutupMitigasi
+    )
 
     return () => {
-      hentikanRadarKrb(map)
-      map.remove()
-      mapRef.current = null
+      window.removeEventListener(
+        'buka-mitigasi',
+        bukaMitigasi
+      )
+
+      window.removeEventListener(
+        'tutup-mitigasi',
+        tutupMitigasi
+      )
     }
   }, [])
 
+  /*
+   * Buat peta satu kali.
+   */
+  useEffect(() => {
+    if (!container.current) {
+      return
+    }
+
+    let map = null
+    let hapusAtribut = null
+    let statusMarker = null
+    let labelLaharHujan = null
+
+    const mulai = async () => {
+      try {
+        map = buatPeta(
+          container.current
+        )
+
+        setMapInstance(map)
+
+        map.once(
+          'load',
+          async () => {
+            try {
+              await muatLapisanKrb(
+                map
+              )
+
+              const dataLaharHujan =
+                await muatLapisanLaharHujan(
+                  map
+                )
+
+              labelLaharHujan =
+                buatLabelLaharHujan(
+                  map,
+                  dataLaharHujan
+                )
+
+              mulaiLaharHujan(
+                map,
+                dataLaharHujan
+              )
+
+              mulaiRadarKrb(map)
+
+              hapusAtribut =
+                pasangAtributKrb(map)
+
+              statusMarker =
+                buatStatusGunung(
+                  map,
+                  {
+                    label: 'Status',
+                    level: 'Level 2',
+                    coordinates: [
+                      121.6410068,
+                      -8.891862,
+                    ],
+                  }
+                )
+            } catch (error) {
+              console.error(
+                'Gagal memuat komponen peta:',
+                error
+              )
+            }
+          }
+        )
+      } catch (error) {
+        console.error(
+          'Gagal menjalankan peta:',
+          error
+        )
+      }
+    }
+
+    mulai()
+
+    return () => {
+      if (hapusAtribut) {
+        hapusAtribut()
+      }
+
+      hapusStatusGunung(
+        statusMarker
+      )
+
+      hapusLabelLaharHujan(
+        labelLaharHujan
+      )
+
+      if (map) {
+        hentikanLaharHujan(map)
+        hentikanRadarKrb(map)
+        hancurkanPeta(map)
+      }
+
+      setMapInstance(null)
+    }
+  }, [])
+
+  /*
+   * MASUK MODE MITIGASI
+   */
+  const masukMitigasi = () => {
+    const map = mapInstance
+
+    if (!map) {
+      setModeLokal('mitigasi')
+      return
+    }
+
+    map.stop()
+
+    map.flyTo({
+      center: MITIGASI_CAMERA.center,
+      zoom: MITIGASI_CAMERA.zoom,
+      pitch: MITIGASI_CAMERA.pitch,
+      bearing: MITIGASI_CAMERA.bearing,
+      duration: DURASI_TRANSISI,
+      essential: true,
+    })
+
+    setModeLokal('mitigasi')
+
+    window.dispatchEvent(
+      new CustomEvent(
+        'buka-mitigasi'
+      )
+    )
+  }
+
+  /*
+   * KEMBALI HOME
+   */
+  const kembaliHome = () => {
+    const map = mapInstance
+
+    if (!map) {
+      setModeLokal('home')
+      return
+    }
+
+    map.stop()
+
+    map.flyTo({
+      center: HOME_CAMERA.center,
+      zoom: HOME_CAMERA.zoom,
+      pitch: HOME_CAMERA.pitch,
+      bearing: HOME_CAMERA.bearing,
+      duration: DURASI_TRANSISI,
+      essential: true,
+    })
+
+    setModeLokal('home')
+
+    window.dispatchEvent(
+      new CustomEvent(
+        'tutup-mitigasi'
+      )
+    )
+  }
+
   return (
     <section
-      className="map-experience"
+      className={`map-experience ${modeSekarang}`}
       style={{
         position: 'relative',
         width: '100%',
@@ -203,6 +303,60 @@ export function MapExperience() {
           width: '100%',
           height: '100%',
         }}
+      />
+
+      <KontrolPeta
+        map={mapInstance}
+      />
+
+      {modeSekarang === 'home' && (
+        <div className="home-story">
+          <button
+            type="button"
+            className="mitigation-action"
+            onClick={masukMitigasi}
+          >
+            <span>
+              Mitigasi & Evakuasi
+            </span>
+
+            <span>
+              →
+            </span>
+          </button>
+
+          <article className="story-box">
+            <span className="eyebrow">
+              GUNUNG IYA · ENDE
+            </span>
+
+            <h1>
+              Jejak gunung api di tepi Laut Flores.
+            </h1>
+
+            <p>
+              Sebuah ruang untuk membaca lanskap
+              Gunung Iya, perubahan aktivitasnya,
+              serta memahami apa yang perlu
+              diperhatikan di sekitarnya.
+            </p>
+
+            <button type="button">
+              Baca selengkapnya
+              <span>→</span>
+            </button>
+          </article>
+        </div>
+      )}
+
+      <MitigasiExperience
+        map={mapInstance}
+        aktif={
+          modeSekarang === 'mitigasi'
+        }
+        onTutup={
+          kembaliHome
+        }
       />
     </section>
   )
