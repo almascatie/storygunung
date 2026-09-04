@@ -46,6 +46,10 @@ import {
   KontrolPeta,
 } from '../peta/kontrol/KontrolPeta'
 
+import {
+  StoryCard,
+} from './StoryCard'
+
 const HOME_CAMERA = {
   center: [121.63439, -8.91708],
   zoom: 12.7,
@@ -294,6 +298,7 @@ export function MapExperience({ mode }) {
         overflow: 'hidden',
       }}
     >
+
       <div
         ref={container}
         className="map"
@@ -326,152 +331,8 @@ export function MapExperience({ mode }) {
             </span>
           </button>
 
-          <article className="story-box">
+          <StoryCard />
 
-            <span className="eyebrow">
-              GUNUNG IYA · ENDE
-            </span>
-
-            <div className="status-badge">
-              Level II · Waspada
-            </div>
-
-            <div className="story-date">
-              Iya, Kamis — 03 September 2026 ·
-              00:00–24:00 WITA
-            </div>
-
-            <div className="seismic-table">
-
-              <div className="seismic-row seismic-head">
-                <div>
-                  Jenis Kegempaan
-                </div>
-
-                <div>
-                  Jumlah
-                </div>
-
-                <div>
-                  Parameter
-                </div>
-              </div>
-
-              <div className="seismic-row">
-                <div className="quake-type">
-                  Vulkanik Dalam
-                </div>
-
-                <div className="quake-count">
-                  2 kali
-                </div>
-
-                <div className="quake-detail">
-                  <div>
-                    Amplitudo 3.34–7.38 mm
-                  </div>
-
-                  <div>
-                    S-P 1.1–2.32 detik
-                  </div>
-
-                  <div>
-                    Lama gempa 21.17–28.02 detik
-                  </div>
-                </div>
-              </div>
-
-              <div className="seismic-row">
-                <div className="quake-type">
-                  Tektonik Lokal
-                </div>
-
-                <div className="quake-count">
-                  11 kali
-                </div>
-
-                <div className="quake-detail">
-                  <div>
-                    Amplitudo 3.7–41.2 mm
-                  </div>
-
-                  <div>
-                    S-P 4.61–10.73 detik
-                  </div>
-
-                  <div>
-                    Lama gempa 35.71–43.65 detik
-                  </div>
-                </div>
-              </div>
-
-              <div className="seismic-row">
-                <div className="quake-type">
-                  Gempa Terasa
-                </div>
-
-                <div className="quake-count">
-                  1 kali
-                </div>
-
-                <div className="quake-detail">
-                  <div>
-                    Skala II MMI
-                  </div>
-
-                  <div>
-                    Amplitudo 41.2 mm
-                  </div>
-
-                  <div>
-                    S-P tidak teramati
-                  </div>
-
-                  <div>
-                    Lama gempa 147.46 detik
-                  </div>
-                </div>
-              </div>
-
-              <div className="seismic-row">
-                <div className="quake-type">
-                  Tektonik Jauh
-                </div>
-
-                <div className="quake-count">
-                  45 kali
-                </div>
-
-                <div className="quake-detail">
-                  <div>
-                    Amplitudo 1.8–38.21 mm
-                  </div>
-
-                  <div>
-                    S-P 11–32.05 detik
-                  </div>
-
-                  <div>
-                    Lama gempa 47.56–108.28 detik
-                  </div>
-                </div>
-              </div>
-
-            </div>
-
-            <div className="story-today">
-
-              <span className="story-label">
-                CERITA GUNUNG HARI INI
-              </span>
-
-              <p>
-                Data Belum di Analisis
-              </p>
-
-            </div>
-
-          </article>
         </div>
       )}
 
@@ -484,6 +345,7 @@ export function MapExperience({ mode }) {
           kembaliHome
         }
       />
+
     </section>
   )
 }
